@@ -7,5 +7,6 @@ urlpatterns = [
     path('<int:bookId>/', views.viewbook, name="books.view_one_book"),
     path('aboutus/', views.aboutus, name="books.aboutus"),
     path('html5/links', views.links_view, name='links'),
+    path('html5/text/formatting', views.links_text_formatting, name='formatting'),
 
 ]

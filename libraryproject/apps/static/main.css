@@ -7,7 +7,6 @@ body {
 }
 
 .container {
-    width: 50%;
     margin: 20px auto;
 }
 
@@ -44,4 +43,20 @@ body {
 
 .same-tab-underline:hover {
     text-decoration: underline;
+}
+.text-formatting{
+    text-align: left;
+}
+.text-formatting h1 {
+    color: green;
+    background-color: lightyellow;
+    padding: 10px;
+}
+mark {
+    background-color: yellow;
+    color: black;
+}
+
+del {
+    text-decoration: line-through;
 }
