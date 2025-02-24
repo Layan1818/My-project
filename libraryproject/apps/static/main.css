@@ -1,15 +1,17 @@
 
 /* main.css */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Times New Roman', Times, serif, sans-serif;
     background-color: white;
-    text-align: center;
 }
 
 .container {
     margin: 20px auto;
 }
 
+.links{
+    text-align: center;
+}
 .link {
     display: block;
     padding: 15px;
@@ -59,4 +61,12 @@ mark {
 
 del {
     text-decoration: line-through;
+}
+
+.listing-title {
+    background-color: #5d9ea0;
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    font-size: 24px;
 }

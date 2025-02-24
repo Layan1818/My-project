@@ -15,5 +15,8 @@ def aboutus(request):
 def links_view(request):
     return render(request, 'bookmodule/html5/links.html')
 
-def links_text_formatting(request):
+def text_formatting(request):
     return render(request, 'bookmodule/html5/text/formatting.html')
+
+def listing(request):
+    return render(request, 'bookmodule/html5/listing.html')
