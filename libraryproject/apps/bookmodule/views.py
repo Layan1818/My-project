@@ -20,3 +20,6 @@ def text_formatting(request):
 
 def listing(request):
     return render(request, 'bookmodule/html5/listing.html')
+    
+def tables(request):
+    return render(request, 'bookmodule/html5/tables.html')

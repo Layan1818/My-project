@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <title>{% block title %}{% endblock title %}</title>
+    <meta name="keywords" content="Books, recent, Learning, library">
+    <meta name="description" content="Books website">
+    <meta name="author" content="author name">
+    <link rel="icon" href="{% static 'qu-icon.png' %}">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+</head>
+<body>
+    <div class="container links">
+        <!-- Table 1 -->
+        <h3 class="table-title">Table 1: Table of Fruits and Their Prices</h3>
+        <table class="fruit-table" border="1">
+            <tr>
+                <th>Fruit</th>
+                <th>Price</th>
+            </tr>
+            <tr>
+                <td>Apple</td>
+                <td>$0.25</td>
+            </tr>
+            <tr>
+                <td>Orange</td>
+                <td>$0.50</td>
+            </tr>
+            <tr>
+                <td>Banana</td>
+                <td>$1.00</td>
+            </tr>
+            <tr>
+                <td>Pineapple</td>
+                <td>$2.00</td>
+            </tr>
+            <tr>
+                <td><strong>Total</strong></td>
+                <td><strong>$3.75</strong></td>
+            </tr>
+        </table>
+
+        <!-- Table 2 -->
+        <h3 class="table-title">Table 2: A more complex sample table</h3>
+        <table class="camel-table" border="1">
+            <tr>
+                <td rowspan="2" class="desert-image"><img src="{% static 'desert.png' %}" alt="Desert Image"></td>
+                <td colspan="4" class="camel-title"><strong>Camelid comparison<br>Approximate as of 6/2011</strong></td>
+            </tr>
+            <tr>
+                <th style="padding:20px"># of humps</th>
+                <th style="padding:20px">Indigenous region</th>
+                <th style="padding:20px">Spits?</th>
+                <th style="padding:20px">Produces wool?</th>
+            </tr>
+            <tr>
+                <th>Dromedary</th>
+                <td>1</td>
+                <td>Arabian Peninsula</td>
+                <td>Yes</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <th>Camels(bactrian)</th>
+                <td>2</td>
+                <td>Africa/Asia</td>
+                <td>Yes</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <th>Llamas</th>
+                <td>1</td>
+                <td>Andes Mountains</td>
+                <td>Yes</td>
+                <td>Yes</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
