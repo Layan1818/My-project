@@ -1,0 +1,47 @@
+
+  {% extends "layouts/base.html" %}
+  {% load static %}
+  {% block title %} Book List {% endblock title %}
+  {% block stylesheets %}
+  <style>
+      .bookList{
+          margin-top: 20px;
+      }
+    
+      .bookList table{
+          width: 100%;
+          border-collapse: collapse;
+      }
+    
+      .bookList table, th, td{
+          border: 1px solid black;
+          padding: 8px;
+          text-align: left;
+      }
+    
+      .bookList th{
+          background-color: #f2f2f2;
+      }
+  </style>
+  {% endblock stylesheets %}
+    
+  {% block content %}
+    <div class="bookList">
+        <h2>Book List</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Book Title</th>
+                <th>Author</th>
+            </tr>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.id }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+  {% endblock content %}
+
