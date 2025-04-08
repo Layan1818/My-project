@@ -1,0 +1,16 @@
+{% extends "../../layouts/base.html" %}
+{% load static %}
+{% block title %} Task 5 - Books Aggregation {% endblock title %}
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block content %}
+    <h1>Books Aggregation Details</h1>
+    <ul>
+      <li>Total Books: {{ total_books }}</li>
+      <li>Total Price: {{ total_price }}</li>
+      <li>Average Price: {{ avg_price }}</li>
+      <li>Maximum Price: {{ max_price }}</li>
+      <li>Minimum Price: {{ min_price }}</li>
+    </ul>
+{% endblock content %}
