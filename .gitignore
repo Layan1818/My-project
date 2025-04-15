@@ -1,0 +1,44 @@
+# python django project gitignore 
+# Python
+*.py[cod]
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+
+# Django
+*.log
+*.pot
+*.pyc
+local_settings.py
+media/
+static/
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Virtual Environment
+venv/
+ENV/
+.env/
+pyEenv/
+.pyEenv/
+pyEnv
+# OS
+.DS_Store
+Thumbs.db

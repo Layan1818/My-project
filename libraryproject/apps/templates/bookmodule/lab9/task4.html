@@ -1,0 +1,42 @@
+{% extends "../../layouts/base.html" %}
+{% load static %}
+{% block title %} Task 4 - Oldest Student per Department {% endblock title %}
+{% block stylesheets %}
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+    <h1>Oldest Student in Each Department</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Department</th>
+                <th>Student Name</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dept in departments %}
+                <tr>
+                    <td>{{ dept.name }}</td>
+                    <td>{{ dept.oldest_student_name }}</td>
+                    <td>{{ dept.oldest_student_age }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.db.models import Q, Sum, Avg, Max, Min, Count
-from .models import Book,Address, Student
+from django.db.models import Q, Sum, Avg, Max, Min, Count, F, Window
+from django.db.models.functions import FirstValue
+from .models import Book, Address, Student, Department, Course
 
 def index(request):
     return render(request, "bookmodule/index.html")
@@ -112,6 +113,48 @@ def students_by_city(request):
         student_count=Count('student')
     ).values('city', 'student_count')
     return render(request, 'bookmodule/students_by_city.html', {'stats': stats})
+
+def lab9_task2(request):
+    departments = Department.objects.annotate(
+        student_count=Count('student')
+    ).values('name', 'student_count')
+    return render(request, 'bookmodule/lab9/task2.html', {'departments': departments})
+
+def lab9_task3(request):
+    courses = Course.objects.annotate(
+        student_count=Count('student')
+    ).values('code', 'title', 'student_count')
+    return render(request, 'bookmodule/lab9/task3.html', {'courses': courses})
+
+def lab9_task4(request):
+    # Get all departments and annotate with oldest student info
+    departments = Department.objects.annotate(
+        student_count=Count('student')
+    ).filter(student_count__gt=0)
+    
+    # Prepare the result list
+    result = []
+    for dept in departments:
+        # Get the oldest student (lowest ID) for this department
+        oldest_student = Student.objects.filter(
+            department=dept
+        ).order_by('id').first()
+        
+        result.append({
+            'name': dept.name,
+            'oldest_student_name': oldest_student.name if oldest_student else 'No students',
+            'oldest_student_age': oldest_student.age if oldest_student else 0
+        })
+    
+    return render(request, 'bookmodule/lab9/task4.html', {'departments': result})
+
+def lab9_task5(request):
+    departments = Department.objects.annotate(
+        student_count=Count('student')
+    ).filter(
+        student_count__gt=2
+    ).order_by('-student_count').values('name', 'student_count')
+    return render(request, 'bookmodule/lab9/task5.html', {'departments': departments})
 
 def __getBooksList():
     book1 = {'id':12344321, 'title':'Continuous Delivery', 'author':'J.Humble and D. Farley'}
