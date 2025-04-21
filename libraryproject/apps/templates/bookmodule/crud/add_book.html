@@ -1,0 +1,73 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}Add New Book{% endblock title %}
+
+{% block stylesheets %}
+<style>
+    .form-container {
+        max-width: 500px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .form-group input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .submit-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .back-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #666;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-right: 10px;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Add New Book</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="author">Author:</label>
+            <input type="text" id="author" name="author" required>
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <label for="edition">Edition:</label>
+            <input type="number" id="edition" name="edition" required>
+        </div>
+        <a href="{% url 'books.list_books_crud' %}" class="back-btn">Back</a>
+        <button type="submit" class="submit-btn">Add Book</button>
+    </form>
+</div>
+{% endblock content %}
