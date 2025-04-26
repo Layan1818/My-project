@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.bookmodule',
     'apps.usermodule',
-
 ]
 
 MIDDLEWARE = [
@@ -53,6 +52,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+LOGIN_URL = '/users/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/users/login/'
 
 ROOT_URLCONF = 'libraryproject.urls'
 STATIC_URL = 'static/'

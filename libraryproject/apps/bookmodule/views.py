@@ -2,19 +2,20 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Sum, Avg, Max, Min, Count, F, Window
 from django.db.models.functions import FirstValue
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .forms import BookForm, StudentForm, Student2Form, ProductImageForm
 from .models import Book, Address, Student, Department, Course, Student2, Address2, ProductImage
 
 def index(request):
     return render(request, "bookmodule/index.html")
 
+@login_required
 def list_books(request):
-    # Get all books from database instead of hardcoded list
     books = Book.objects.all()
     return render(request, 'bookmodule/list_books.html', {'books': books})
 
+@login_required
 def createBook(request):
-    # Example using constructor method
     book1 = Book(
         title='Django for Beginners',
         author='William S. Vincent',
@@ -23,7 +24,6 @@ def createBook(request):
     )
     book1.save()
     
-    # Example using create method
     book2 = Book.objects.create(
         title='Django for Professionals', 
         author='William S. Vincent',
@@ -34,6 +34,7 @@ def createBook(request):
     books = Book.objects.all()
     return render(request, 'bookmodule/list_books.html', {'books': books})
 
+@login_required
 def viewbook(request, bookId):
     return render(request, 'bookmodule/one_book.html')
 
@@ -52,12 +53,12 @@ def listing(request):
 def tables(request):
     return render(request, 'bookmodule/html5/tables.html')
 
+@login_required
 def search(request):
     if request.method == "POST":
         string = request.POST.get('keyword').lower()
         isTitle = request.POST.get('option1')
         isAuthor = request.POST.get('option2')
-        # now filter
         books = __getBooksList()
         newBooks = []
         for item in books:
@@ -71,7 +72,7 @@ def search(request):
     return render(request, 'bookmodule/search.html')
 
 def simple_query(request):
-    mybooks = Book.objects.filter(title__icontains='an')  # <- multiple objects
+    mybooks = Book.objects.filter(title__icontains='an')
     return render(request, 'bookmodule/bookList.html', {'books':mybooks})
 
 def complex_query(request):
@@ -129,15 +130,12 @@ def lab9_task3(request):
     return render(request, 'bookmodule/lab9/task3.html', {'courses': courses})
 
 def lab9_task4(request):
-    # Get all departments and annotate with oldest student info
     departments = Department.objects.annotate(
         student_count=Count('student')
     ).filter(student_count__gt=0)
     
-    # Prepare the result list
     result = []
     for dept in departments:
-        # Get the oldest student (lowest ID) for this department
         oldest_student = Student.objects.filter(
             department=dept
         ).order_by('id').first()
@@ -164,10 +162,12 @@ def __getBooksList():
     book3 = {'id':43211234, 'title':'The Hundred-Page Machine Learning Book', 'author':'Andriy Burkov'}
     return [book1, book2, book3]
 
+@login_required
 def list_books_crud(request):
     books = Book.objects.all()
     return render(request, 'bookmodule/crud/list_books.html', {'books': books})
 
+@login_required
 def add_book(request):
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -185,6 +185,7 @@ def add_book(request):
     
     return render(request, 'bookmodule/crud/add_book.html')
 
+@login_required
 def edit_book(request, id):
     book = get_object_or_404(Book, id=id)
     
@@ -198,15 +199,18 @@ def edit_book(request, id):
     
     return render(request, 'bookmodule/crud/edit_book.html', {'book': book})
 
+@login_required
 def delete_book(request, id):
     book = get_object_or_404(Book, id=id)
     book.delete()
     return redirect('books.list_books_crud')
 
+@login_required
 def list_books_form(request):
     books = Book.objects.all()
     return render(request, 'bookmodule/form/list_books.html', {'books': books})
 
+@login_required
 def add_book_form(request):
     if request.method == 'POST':
         form = BookForm(request.POST)
@@ -218,6 +222,7 @@ def add_book_form(request):
         form = BookForm()
     return render(request, 'bookmodule/form/add_book.html', {'form': form})
 
+@login_required
 def edit_book_form(request, id):
     book = get_object_or_404(Book, id=id)
     if request.method == 'POST':
@@ -230,16 +235,19 @@ def edit_book_form(request, id):
         form = BookForm(instance=book)
     return render(request, 'bookmodule/form/edit_book.html', {'form': form, 'book': book})
 
+@login_required
 def delete_book_form(request, id):
     book = get_object_or_404(Book, id=id)
     book.delete()
     messages.success(request, 'Book deleted successfully!')
     return redirect('books.list_books_form')
 
+@login_required
 def list_students(request):
     students = Student.objects.select_related('address').all()
     return render(request, 'bookmodule/student/list_students.html', {'students': students})
 
+@login_required
 def add_student(request):
     if request.method == 'POST':
         form = StudentForm(request.POST)
@@ -251,6 +259,7 @@ def add_student(request):
         form = StudentForm()
     return render(request, 'bookmodule/student/add_student.html', {'form': form})
 
+@login_required
 def edit_student(request, id):
     student = get_object_or_404(Student, id=id)
     if request.method == 'POST':
@@ -263,16 +272,19 @@ def edit_student(request, id):
         form = StudentForm(instance=student)
     return render(request, 'bookmodule/student/edit_student.html', {'form': form, 'student': student})
 
+@login_required
 def delete_student(request, id):
     student = get_object_or_404(Student, id=id)
     student.delete()
     messages.success(request, 'Student deleted successfully!')
     return redirect('books.list_students')
 
+@login_required
 def list_students2(request):
     students = Student2.objects.prefetch_related('addresses').all()
     return render(request, 'bookmodule/student2/list_students.html', {'students': students})
 
+@login_required
 def add_student2(request):
     if request.method == 'POST':
         form = Student2Form(request.POST)
@@ -284,6 +296,7 @@ def add_student2(request):
         form = Student2Form()
     return render(request, 'bookmodule/student2/add_student.html', {'form': form})
 
+@login_required
 def edit_student2(request, id):
     student = get_object_or_404(Student2, id=id)
     if request.method == 'POST':
@@ -296,16 +309,19 @@ def edit_student2(request, id):
         form = Student2Form(instance=student)
     return render(request, 'bookmodule/student2/edit_student.html', {'form': form, 'student': student})
 
+@login_required
 def delete_student2(request, id):
     student = get_object_or_404(Student2, id=id)
     student.delete()
     messages.success(request, 'Student deleted successfully!')
     return redirect('books.list_students2')
 
+@login_required
 def list_products(request):
     products = ProductImage.objects.all()
     return render(request, 'bookmodule/product/list_products.html', {'products': products})
 
+@login_required
 def add_product(request):
     if request.method == 'POST':
         form = ProductImageForm(request.POST, request.FILES)
@@ -317,6 +333,7 @@ def add_product(request):
         form = ProductImageForm()
     return render(request, 'bookmodule/product/add_product.html', {'form': form})
 
+@login_required
 def edit_product(request, id):
     product = get_object_or_404(ProductImage, id=id)
     if request.method == 'POST':
@@ -329,6 +346,7 @@ def edit_product(request, id):
         form = ProductImageForm(instance=product)
     return render(request, 'bookmodule/product/edit_product.html', {'form': form, 'product': product})
 
+@login_required
 def delete_product(request, id):
     product = get_object_or_404(ProductImage, id=id)
     product.delete()

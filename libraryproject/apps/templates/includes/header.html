@@ -3,5 +3,26 @@
     <a class="{% if url_name == 'books.index' %}active{% endif %}" href="{% url 'books.index' %}">Home</a>
     <a class="{% if url_name == 'books.list_books' %}active{% endif %}" href="{% url 'books.list_books' %}">List Books</a>
     <a class="{% if url_name == 'books.aboutus' %}active{% endif %}" href="{% url 'books.aboutus' %}">About</a>
+    {% if user.is_authenticated %}
+        <span class="user-info">Welcome, {{ user.username }}</span>
+        <a href="{% url 'logout' %}" class="auth-link">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}" class="auth-link">Login</a>
+        <a href="{% url 'register' %}" class="auth-link">Register</a>
+    {% endif %}
 </div>
+
+<style>
+    .topnav {
+        // ...existing code...
+    }
+    .user-info {
+        color: white;
+        padding: 14px 16px;
+        float: right;
+    }
+    .auth-link {
+        float: right !important;
+    }
+</style>
 {% endwith %}
