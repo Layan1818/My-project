@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Sum, Avg, Max, Min, Count, F, Window
 from django.db.models.functions import FirstValue
 from django.contrib import messages
-from .forms import BookForm
-from .models import Book, Address, Student, Department, Course
+from .forms import BookForm, StudentForm, Student2Form, ProductImageForm
+from .models import Book, Address, Student, Department, Course, Student2, Address2, ProductImage
 
 def index(request):
     return render(request, "bookmodule/index.html")
@@ -235,6 +235,105 @@ def delete_book_form(request, id):
     book.delete()
     messages.success(request, 'Book deleted successfully!')
     return redirect('books.list_books_form')
+
+def list_students(request):
+    students = Student.objects.select_related('address').all()
+    return render(request, 'bookmodule/student/list_students.html', {'students': students})
+
+def add_student(request):
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Student added successfully!')
+            return redirect('books.list_students')
+    else:
+        form = StudentForm()
+    return render(request, 'bookmodule/student/add_student.html', {'form': form})
+
+def edit_student(request, id):
+    student = get_object_or_404(Student, id=id)
+    if request.method == 'POST':
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Student updated successfully!')
+            return redirect('books.list_students')
+    else:
+        form = StudentForm(instance=student)
+    return render(request, 'bookmodule/student/edit_student.html', {'form': form, 'student': student})
+
+def delete_student(request, id):
+    student = get_object_or_404(Student, id=id)
+    student.delete()
+    messages.success(request, 'Student deleted successfully!')
+    return redirect('books.list_students')
+
+def list_students2(request):
+    students = Student2.objects.prefetch_related('addresses').all()
+    return render(request, 'bookmodule/student2/list_students.html', {'students': students})
+
+def add_student2(request):
+    if request.method == 'POST':
+        form = Student2Form(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Student added successfully!')
+            return redirect('books.list_students2')
+    else:
+        form = Student2Form()
+    return render(request, 'bookmodule/student2/add_student.html', {'form': form})
+
+def edit_student2(request, id):
+    student = get_object_or_404(Student2, id=id)
+    if request.method == 'POST':
+        form = Student2Form(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Student updated successfully!')
+            return redirect('books.list_students2')
+    else:
+        form = Student2Form(instance=student)
+    return render(request, 'bookmodule/student2/edit_student.html', {'form': form, 'student': student})
+
+def delete_student2(request, id):
+    student = get_object_or_404(Student2, id=id)
+    student.delete()
+    messages.success(request, 'Student deleted successfully!')
+    return redirect('books.list_students2')
+
+def list_products(request):
+    products = ProductImage.objects.all()
+    return render(request, 'bookmodule/product/list_products.html', {'products': products})
+
+def add_product(request):
+    if request.method == 'POST':
+        form = ProductImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Product added successfully!')
+            return redirect('books.list_products')
+    else:
+        form = ProductImageForm()
+    return render(request, 'bookmodule/product/add_product.html', {'form': form})
+
+def edit_product(request, id):
+    product = get_object_or_404(ProductImage, id=id)
+    if request.method == 'POST':
+        form = ProductImageForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Product updated successfully!')
+            return redirect('books.list_products')
+    else:
+        form = ProductImageForm(instance=product)
+    return render(request, 'bookmodule/product/edit_product.html', {'form': form, 'product': product})
+
+def delete_product(request, id):
+    product = get_object_or_404(ProductImage, id=id)
+    product.delete()
+    messages.success(request, 'Product deleted successfully!')
+    return redirect('books.list_products')
 
 
 
